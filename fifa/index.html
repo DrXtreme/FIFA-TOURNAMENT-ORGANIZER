@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="theme-color" content="#000000" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta property="og:title" content="FIFA17 SYSTEM :: PS25+ GROUP:: L I B Y A">
+    <meta name="author" content="Sofain Ben-issa">
+
+    <meta name="description" content="Our groups first gaming system website, here you can make leagues and compete with your friends online or even offline join and make a title to fight for now!">
+    <meta property="og:description" content="Our groups first gaming system website, here you can make leagues and compete with your friends online or even offline join and make a title to fight for now!">
+    <meta property="og:image" content="https://preview.ibb.co/d2dBC5/ps25.jpg">
+    <meta property="og:url" content="http://thestevesite.co.nf/fifa/index.html">
+    <meta property="fb:app_id" content="335603056883392">
+    <meta name="twitter:card" content="summary_large_image">
+		<title>PS25+ FIFA SYSTEM 2017 :: LIBYA ::</title>
+		<script src="jquery-3.2.1.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<style type="text/css">
+			body{
+				background-color: #15061F;
+				color: white;
+				text-align: center;
+			}
+			.well{
+				color: black;
+			}
+			.jumbotron{
+				color: #9F0EFF;
+				background: url("ps25.jpg") no-repeat center center;
+				text-outline: 80px 80px black;
+				background-size: cover;
+				 -webkit-text-stroke-width: 1px;
+                 -webkit-text-stroke-color: black;
+			}
+			input{
+				color: black;
+			}
+			select{
+				color: black;
+			}
+			button{
+				color: black;
+			}
+			#rankings .ranka{
+				padding:0 5px 0 5px;
+			}
+			#rankings tr{
+				border-bottom:1pt solid white;
+			}
+			#rankings tr:hover{
+				background-color: #150610;
+			}
+			#rankings .rankScored{
+				padding:0 10px 0 10px;
+			}
+			#rankings .P{
+				color: lightblue;
+			}
+			#rankings .rankW{
+				color: lightgreen;
+			}
+			#rankings .rankD{
+				color: whitesmoke;
+			}
+			#rankings .rankL{
+				color: #ff4c4c;
+			}
+			#rankings .rankPlyd{
+				color: black;
+				background-color: whitesmoke;
+				border-bottom:1pt solid black;
+			}
+			#rankings .rank{
+				color: black;
+				background-color: whitesmoke;
+				border-bottom:1pt solid black;
+			}
+			table {
+			    width: auto;
+			    margin-left: auto;
+			    margin-right: auto;
+			}
+			#gameSchedule tr{
+				border:1pt solid gray	;
+			}
+		</style>
+		
+		
+		<script type="text/javascript">
+			//leagues in class
+			function League(name,seasons,ID){
+				this.name=name;
+				this.seasons=seasons;
+				this.ID=ID;
+			}
+			function Team(ID,name,userID,leagueID,seasonID,scored,against,won,lost,draw,points,notPlayed){
+				this.ID=ID;
+				this.name=name;
+				this.userID=userID;
+				this.leagueID=leagueID || 0;
+				this.seasonID=seasonID || 0;
+				this.scored=scored || 0;
+				this.against=against || 0;
+				this.won=won || 0;
+				this.draw=draw || 0;
+				this.lost=lost || 0;
+				this.points=points || 0;
+				this.notPlayed=notPlayed || 0;
+			}
+
+			//var successmessage = "Thank you for email, we will be in contact soon!";
+			//var failedmessage = "There was a problem, please try again!";
+			//var usersname = $('#name');
+			//var usersemail = $('#email');
+			//var usersphone = $('#phone');			
+			//var userscomment = $('#comment');
+			//var usershuman = $('#human');
+			var looked=0;
+			var leagues=[];
+			var leagueID=0;
+			var seasonID=0;
+			var url = "core.php";
+			function getLeagues(){
+				
+				if (looked==0) {
+				var getLeagues = 1;
+				//document.getElementById("slctleague").innerHTML="loading...";
+				//$('#slctleague').text("");
+				$.post(url,{ getLeagues: getLeagues } , function(data) {
+					
+					var rows=data.split('^');
+					//var leagueArray=[];
+					for(var i=0;i<rows.length-1;i++){
+						
+						$leagueName=rows[i].split(',')[0];
+						if($leagueName!==""){
+							if(i==0){
+								leagues=[new League($leagueName,rows[i].split(',')[1],rows[i].split(',')[2]) ];
+							}else{
+							leagues.push(new League($leagueName,rows[i].split(',')[1],rows[i].split(',')[2]) );}
+							//$('#slctLeague').append("<option value=''>"+$leagueName+"</option>");
+							//$('#slctSeason').append("<option value=''>"+rows[i].split(',')[1]+"</option>");
+					}}
+					for(var i=0;i<leagues.length;i++){
+						
+						$('#slctLeague').append("<option value=''>"+leagues[i].name+"</option>");
+					}
+					//$(#slctleague).html("<option value='"data"'>"data"</option>");
+				});looked=1;}
+			}
+			var lookedSeasons=0;
+			var index=0;
+			var addedSeason=0;
+			function fillSeasons(load){
+				load =load ||0 ;
+				if(lookedSeasons==0){addedSeason=0;
+				$('#rankings').empty();
+				$('#rankings').html("<tr><td>#</td><td>Team</td><td>Pl </td><td class='rankW ranka'> W </td><td class='rankD ranka'> D </td><td class='rankL ranka'> L </td><td class='rankScored ranka'> +/- </td><td> Pts</td></tr>");
+				if(load==1){
+					//do nothing
+				}else{
+					if(document.getElementById("slctLeague")){
+						index=document.getElementById("slctLeague").selectedIndex;
+						
+					}
+					else{
+						index=0;
+					}
+				}
+				var seasons=leagues[index].seasons;//seasonName=seasons;
+				leagueID=leagues[index].ID;
+				if(seasons==0){document.getElementById('slctSeason').innerHTML="<option value=''>no seasons</option>";}
+				else{
+					document.getElementById('slctSeason').innerHTML="";
+					for(var i=seasons;i>0;i--){
+						$('#slctSeason').append("<option value=''>"+(i)+"</option>");
+						//$('#slctLeague').append("<option value=''>"+leagues[i].name+"</option>");
+					}
+				}lookedSeasons=1;gameSchedule();
+				}
+			}
+			//myLink = document.getElementById('addSeasonLink');
+			//myLink.onclick = addSeason(leagueID);
+			//$('#addSeasonLink').click(addSeason(leagueID));
+			
+			function addSeason(leagueID){
+				if(leagueID!==0||addedSeason==0){
+					if(confirm("Are you sure you want to add a season to this league?\n*this will end current season and you have to make new teams to start a new season!")){
+					//leagues[index].seasons+=1;
+					var seasons=parseInt(leagues[index].seasons)+parseInt(1);
+					leagues[index].seasons=seasons;
+					
+					$.post(url,{addSeason:leagueID , seasons:seasons},function(data){
+						if(data==1){
+							alert("successfully added season");addedSeason+=1;$('#slctSeason').append("<option value=''>"+leagues[index].seasons+"</option>");
+						}else{
+							alert("failed to add season"+data);
+							var seasons=parseInt(leagues[index].seasons)-1;
+							leagues[index].seasons=seasons;
+						}
+					});
+					return false;
+				}}
+			}
+			var lookedTeams=0;
+			var seasonIndex=0;
+			var addedTeam=0;
+			var teams=[];
+			var teamIndex=0;
+			var teamsGot=0;
+			var seasonTeams=[];
+			var filledSeasonTeams=0;
+			function getTeams(leagueID4Teams,seasonID4Teams){
+				leagueID4Teams=leagueID4Teams||0;
+				seasonID4Teams=seasonID4Teams||0;
+				if (lookedTeams==0 || lookedSeasons==1) {
+				 teams=[];
+				if($('#slctTeam').html()==""){
+				$.post(url,{ leagueID4Teams: leagueID4Teams,  seasonID4Teams : seasonID4Teams, } , function(data) {
+					if(data!==""){
+					var response=data;
+					var rows=data.split('^');//alert(data);
+					//var leagueArray=[];
+					for(var i=0;i<rows.length-1;i++){
+							
+						$teamID=rows[i].split(',')[0];
+						if($teamID!==0){
+							if(i==0){
+								teams=[new Team($teamID,rows[i].split(',')[1],rows[i].split(',')[2]) ];
+							}else{
+							teams.push(new Team($teamID,rows[i].split(',')[1],rows[i].split(',')[2]) );}
+							
+					}}
+					for(var i=0;i<teams.length;i++){
+						
+						$('#slctTeam').append("<option value='"+teams[i].ID+"'>"+teams[i].name+"</option>");
+					}
+					}
+				});lookedTeams=1;teamsGot=1;}}
+				
+					if(leagueID4Teams!==0 && seasonID4Teams!==0 && filledSeasonTeams==0){
+						$('#rankings').empty();
+						$('#rankings').html("<tr><td>#</td><td>Team</td><td>Pl </td><td class='rankW ranka'> W </td><td class='rankD ranka'> D </td><td class='rankL ranka'> L </td><td class='rankScored ranka'> +/- </td><td> Pts</td></tr>");
+						$('#rankings').addClass("table");
+						var seasonID4Teams=$('#slctSeason option:selected').text();
+						var leagueID4Teams=leagues[index].ID;
+						var forRankings=1;
+						seasonTeams=[];
+						$.post(url,{ leagueID4Teams: leagueID4Teams,  seasonID4Teams : seasonID4Teams, forRankings: forRankings} , function(data) {//alert(data);
+						if(data!==""){
+							var response=data;
+							var rows=data.split('^');//alert(response);
+							//var leagueArray=[];
+							for(var i=0;i<rows.length-1;i++){
+								
+								$teamID=rows[i].split(',')[0];
+								if($teamID!==0){
+									
+								seasonTeams.push(new Team($teamID,rows[i].split(',')[1],rows[i].split(',')[2],rows[i].split(',')[3],rows[i].split(',')[4],rows[i].split(',')[5],rows[i].split(',')[6],rows[i].split(',')[7],rows[i].split(',')[8],rows[i].split(',')[9],rows[i].split(',')[10],rows[i].split(',')[11]) );}
+									
+							}
+							//put data ni table
+							for(var i=0;i<seasonTeams.length;i++){
+								$('#rankings').append("<tr><td class='rank'>"+(i+1)+"</td><td class='rankTeam'>"+seasonTeams[i].name+"</td><td class='rankPlyd'>"+parseInt(parseInt(seasonTeams[i].won)+parseInt(seasonTeams[i].draw)+parseInt(seasonTeams[i].lost))+" </td><td class='rankW ranka'>"+seasonTeams[i].won+" </td><td class='rankD ranka'>"+seasonTeams[i].draw+" </td><td class='rankL ranka'> "+seasonTeams[i].lost+" </td><td class='rankScored ranka'> "+seasonTeams[i].scored+" <span style='color:red;'>/</span> "+seasonTeams[i].against+" </td><td class='P'> "+seasonTeams[i].points+"</td></tr>");
+							}
+						}
+						});
+						filledSeasonTeams=1;
+					}
+				
+			}
+			function addTeamSeason(){
+				if(confirm("This will add the selected team to the last season of this league")){
+				if($('#slctTeam option:selected').text()!=="undefined" || $('#slctTeam option:selected').text()!==""){
+				if(teamsGot==1){
+				var addTeamSeason=1;
+				var seasonID4Teams=leagues[index].seasons;
+				var leagueID4Teams=leagues[index].ID;
+				var teamID=$('#slctTeam option:selected').val();
+				if(teamID!=="" || teamID!=="undefined" || $('#slctTeam option:selected').text()!=="undefined" || $('#slctTeam option:selected').text()!==""){
+				$.post(url,{addTeamSeason: addTeamSeason , teamID: teamID , seasonID4Teams: seasonID4Teams , leagueID: leagueID4Teams},function(data){
+						if(data==2){//alert(data);
+							alert("successfully added team: "+$('#slctTeam option:selected').text()+" to latest season of this league!");addedSeason+=1;
+							$('#slctTeam option:selected').remove();
+						}else{
+							alert("failed to add season"+data);
+							
+						}
+					});}
+				}}else{alert("to add team to season first select league and season!");}
+			}}
+			var teams4Games=[];
+			var gotTeams4Games=0;
+			function getTeamGames(){
+				if(gotTeams4Games==0){
+				var seasonID4Games=leagues[index].seasons;
+				var leagueID4Games=leagues[index].ID;
+				var notPlayedGames=1;
+				$.post(url,{ seasonID4Games: seasonID4Games , leagueID4Games: leagueID4Games , notPlayedGames: notPlayedGames},function(data){
+					if(data!==""){
+						var rows=data.split('^');//alert(data);
+					//var leagueArray=[];
+					for(var i=0;i<rows.length-1;i++){
+								
+								$teamID=rows[i].split(',')[0];
+								if($teamID!==0){
+									
+								teams4Games.push(new Team($teamID,rows[i].split(',')[1],rows[i].split(',')[2],rows[i].split(',')[3],rows[i].split(',')[4],rows[i].split(',')[5],rows[i].split(',')[6],rows[i].split(',')[7],rows[i].split(',')[8],rows[i].split(',')[9],rows[i].split(',')[10],rows[i].split(',')[11]) );}
+									
+							}
+							$('#slctT1').empty();
+							$('#slctT2').empty();
+							for(var i=0;i<teams4Games.length;i++){
+								$('#slctT1').append("<option value='"+teams4Games[i].ID+"'>"+teams4Games[i].name+"</option>");
+								$('#slctT2').append("<option value='"+teams4Games[i].ID+"'>"+teams4Games[i].name+"</option>");
+							}
+							gotTeams4Games=1;
+					}
+				});
+				//if(!NaN($('#t1G')) && !NaN($('#t2G'))){
+					//*code az fak
+				//}
+			}
+			}
+			function submitGame(){
+				if(gotTeams4Games==1){
+				if(!isNaN($('#t1G').val()) && !isNaN($('#t2G').val())){
+					var t1g=$('#t1G').val();
+					var t2g=$('#t2G').val();
+					var leageueID=leagues[index].ID;
+					var seasonID=leagues[index].seasons;
+					var t1ID=$('#slctT1 option:selected').val();
+					var t2ID=$('#slctT2 option:selected').val();
+					if(t1ID!=t2ID){
+						//alert("if is integer");
+						if(t1g>=0 && t1g<25 && t2g>=0 && t2g<25){
+							$gameSubmitByUser=1;
+							$.post(url,{gameSubmitByUser: $gameSubmitByUser, leagueID: leagueID, seasonID: seasonID, t1ID: t1ID, t2ID: t2ID, t1g: t1g, t2g: t2g},function(data){
+								if(data){
+									if(data>0){
+									alert("successfully submitted result! \n-result ID: "+data+"\nRESULTS MUST BE ADMITTED BY ADMIN!");
+									}else if(data==-1){
+										alert("Selected teams have already played twice this season!");
+									}else{
+										alert("failed to submit game!"+data);
+									}
+								}else{
+									alert("failed to submit Game!");
+								}
+							});
+						}else{
+							alert("wrong input and you cant score more than 25 goals in a game");
+						}
+					}else{
+						alert("you cant play to yourself! XD");
+					}
+				}
+			}
+			}
+			var scheduled = 0 ;
+			function gameSchedule(){
+				if(scheduled==0){
+				setTimeout(300);
+				var leagueID4Schedule=leagues[index].ID;
+				var seasonID4Schedule=$('#slctSeason option:selected').text();
+				$.post(url,{ seasonID4Schedule: seasonID4Schedule , leagueID4Schedule: leagueID4Schedule },function(data){
+					if(data!==""){
+						if(data){
+							$('#gameSchedule').empty();
+							$('#gameSchedule').html("<tr><td>Team</td><td>Goals</td><td>x</td><td>Goals</td><td>Team</td><td>Date</td></tr>");
+							$('#gameSchedule').addClass("table");
+							var rows=data.split('^');
+							for(var i=0;i<rows.length-1;i++){
+								$teamID=rows[i].split(',')[0];
+								$('#gameSchedule').append("<tr><td>"+rows[i].split(',')[0]+"</td><td>"+rows[i].split(',')[1]+"</td><td style='color:red;'>x</td><td>"+rows[i].split(',')[2]+"</td><td>"+rows[i].split(',')[3]+"</td><td>"+rows[i].split(',')[4]+"</td></tr>");
+							}
+							$('#gameSchedule').append("<tr><td><select class='form-control' id='slctT1' onclick='getTeamGames();'></select></td><td><input type='text' name='t1G' id='t1G' size='1' maxlength='2'></td><td style='color:red;'>x</td><td><input type='text' name='t2G' id='t2G' size='1' maxlength='2'></td><td><select class='form-control' aria-labelledby='dropdownMenu1' id='slctT2' onclick='getTeamGames();'></select></td><td><button id='submitGame' onclick='submitGame();'>Submit</button></td></tr>");
+						}
+					}
+				});
+				scheduled=1;
+			}
+			}
+
+			getLeagues();
+			//scheduled=0;
+			//setTimeout(500,fillSeasons());
+			//setTimeout(500,getTeams(1,1));
+			//setTimeout(500,gameSchedule());
+			//fillSeasons();getTeams(1,1);gameSchedule();
+			//setTimeout(fillSeasons(1), 10000);
+			//filledSeasonTeams=0;
+			//setTimeout(getTeams(1,1), 300);
+			//gameSchedule();
+		</script>
+	</head>
+	<body>
+	<!-- facebook login -->
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_PI/sdk.js#xfbml=1&version=v2.10&appId=335603056883392";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+      <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">PS25+ FIFA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="registerUser.php">Register!</a></li>
+            <li><a href="newLeague.html">New League!</a></li>
+            <li><a href="leaderboards.html">Leaderboards</a></li>
+            <li><a href="admin.php">Admin</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<br><br>
+    <div class="container theme-showcase" role="main">
+    	<div class="jumbotron" >
+        <h1></h1>
+        <p></p>
+      </div>
+      <div class="page-header"><h6><strong>BETA VERSION</strong></h6>
+		
+		
+		<div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
+		
+	
+		<div class="fb-share-button" data-href="http://thestevesite.co.nf/fifa/index.html" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fthestevesite.co.nf%2Ffifa%2Findex.html&amp;src=sdkpreparse">Blabber t&#039; yer mates</a></div>
+		
+		</div>
+
+		
+		<div class="label label-default"><strong>Welcome PS25+ members to our brand new FIFA17 system</strong></div>
+		<h5>Rankings:</h5>
+		
+		<table class="table">
+			<tr><td>Choose League: </td><td><select class="form-control" id="slctLeague" onclick="getLeagues();" onchange="lookedSeasons=0;filledSeasonTeams=0;$('#rankings').empty();"></select></td><td></td></tr>
+			<tr><td>Choose Season: </td><td><select class="form-control" id="slctSeason" onclick="scheduled=0;fillSeasons();getTeams(1,1);gameSchedule();" onchange="scheduled=0;filledSeasonTeams=0;getTeams(1,1);gameSchedule();"></select></td><td><a href="#" id="addSeasonLink" onclick="addSeason(leagueID);">Add Season!</a></td></tr>
+			
+			<tr id="addTeamTr"><td>Choose a team to add to current season: </td><td><select class="form-control" id="slctTeam" onclick="getTeams();"></select></td><td><a href="#" id="addTeamLink" onclick="addTeamSeason();">Add Team!</a></td></tr>
+			<div class="container">
+			<div class="row">
+	        <div class="col-md-6">
+	        <table id="rankings" class="table">
+				<tr><td>#</td><td>Team</td><td>Pl </td><td class='rankW ranka'> W </td><td class='rankD ranka'> D </td><td class='rankL ranka'> L </td><td class='rankScored ranka'> +/- </td><td> Pts</td></tr>
+			</table></div></div></div>
+			<br>
+			<table id="gameSchedule" class="table" >
+	        	<tr><td>Team</td><td>Goals</td><td>x</td><td>Goals</td><td>Team</td><td>Date</td></tr>
+	        </table>
+			<div class="container">
+			<div class="row">
+	        <div class="col-md-6">
+	        
+			</div></div></div>
+		</table></div>
+		<footer>©2017  BY  <a href="http://sofian.co.nf/">DrXtReMe</a> </footer>
+	</body>
+</html>

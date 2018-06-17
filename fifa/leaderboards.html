@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#000000" >
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="FIFA17 :: LIBYA:: PS25+ GROUP">
+<meta name="author" content="Sofian Ben-issa">
+	<title>PS25+ FIFA SYSTEM 2017 :: LIBYA ::</title>
+	<script src="jquery-3.2.1.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<style type="text/css">
+			body{
+				background-color: #15061F;
+				color: white;
+				text-align: center;
+			}
+			.well{
+				color: black;
+			}
+			.jumbotron{
+				color: #9F0EFF;
+				background: url("ps25.jpg") no-repeat center center;
+				text-outline: 80px 80px black;
+				background-size: cover;
+				 -webkit-text-stroke-width: 1px;
+                 -webkit-text-stroke-color: black;
+			}
+			input{
+				color: black;
+			}
+			select{
+				color: black;
+			}
+			button{
+				color: black;
+			}
+			#rankings .ranka{
+				padding:0 5px 0 5px;
+			}
+			#rankings tr{
+				border-bottom:1pt solid white;
+			}
+			#rankings tr:hover{
+				background-color: #150610;
+			}
+			#rankings .rankScored{
+				padding:0 10px 0 10px;
+			}
+			#rankings .P{
+				color: lightblue;
+			}
+			#rankings .rankW{
+				color: lightgreen;
+			}
+			#rankings .rankD{
+				color: whitesmoke;
+			}
+			#rankings .rankL{
+				color: #ff4c4c;
+			}
+			#rankings .rankPlyd{
+				color: whitesmoke;
+				background-color: linear;
+				border:1pt solid lightblue;
+			}
+			#rankings .rank{
+				color: whitesmoke;
+				
+				border:2pt solid lightblue;
+			}
+			table {
+			    width: auto;
+			    margin-left: auto;
+			    margin-right: auto;
+			}
+			#gameSchedule tr{
+				border:1pt solid gray	;
+			}
+		</style>
+	<script type="text/javascript">
+	function User(ID,name,PSN,FB,scored,against,won,draw,lost,points){
+				this.ID=ID;
+				this.name=name;
+				this.PSN=PSN;
+				this.FB=FB||0;
+				this.scored=scored||0;
+				this.against=against||0;
+				this.won=won||0;
+				this.draw=draw||0;
+				this.lost=lost||0;
+				this.points=points||0;
+			}
+		var users=[];
+		var url="core.php";
+		$('#rankings').html("<tr><td>#</td><td>Team</td><td>Pl </td><td class='rankW ranka'> W </td><td class='rankD ranka'> D </td><td class='rankL ranka'> L </td><td class='rankScored ranka'> +/- </td><td> Pts</td></tr>");
+						var gimmeLeaderboards=1;
+						$.post(url,{ gimmeLeaderboards: gimmeLeaderboards} , function(data) {//alert(data);
+						if(data!==""){
+							var response=data;
+							var rows=data.split('^');//alert(response);
+							//var leagueArray=[];
+							for(var i=0;i<rows.length-1;i++){
+								
+								$userID=rows[i].split(',')[0];
+								if($userID!==0){
+									
+								users.push(new User($userID,rows[i].split(',')[1],rows[i].split(',')[2],rows[i].split(',')[3],rows[i].split(',')[4],rows[i].split(',')[5],rows[i].split(',')[6],rows[i].split(',')[7],rows[i].split(',')[8],rows[i].split(',')[9] ));}
+									
+							}
+							//put data ni table
+							for(var i=0;i<users.length;i++){
+								//$('#rankings').append("<tr><td class='rank'>"+(i+1)+"</td><td class='rankTeam'>"+users[i].name+"</td><td class='rankScored'>"+users[i].scored+"</td><td class='rankAgnst'>"+users[i].against+"</td><td class='rankW'>"+users[i].won+"</td><td class='rankD'>"+users[i].draw+"</td><td class='rankL'>"+users[i].lost+"<td class='P'>"+users[i].points+"</td></tr>");
+								$('#rankings').append("<tr><td class='rank'>"+(i+1)+"</td><td class='rankTeam'>"+users[i].name+"</td><td class='rankPlyd'>"+parseInt(parseInt(users[i].won)+parseInt(users[i].draw)+parseInt(users[i].lost))+" </td><td class='rankW ranka'>"+users[i].won+" </td><td class='rankD ranka'>"+users[i].draw+" </td><td class='rankL ranka'> "+users[i].lost+" </td><td class='rankScored ranka'> "+users[i].scored+" <span style='color:red;'>/</span> "+users[i].against+" </td><td class='P'> "+users[i].points+"</td></tr>");
+							}
+						}
+						});
+	</script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">PS25+ FIFA</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="registerUser.php">Register!</a></li>
+              <li><a href="newLeague.html">New League!</a></li>
+              <li class="active"><a href="leaderboards.html">Leaderboards</a></li>
+              <li><a href="admin.php">Admin</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+      <div class="well"><p DIR="RTL"><strong>العبوا جميع!</strong></p></div>
+<table id="rankings" class="table">
+	<tr><td>#</td><td>Team</td><td>Pl </td><td class='rankW ranka'> W </td><td class='rankD ranka'> D </td><td class='rankL ranka'> L </td><td class='rankScored ranka'> +/- </td><td> Pts</td></tr>
+</table>
+</body>
+</html>
